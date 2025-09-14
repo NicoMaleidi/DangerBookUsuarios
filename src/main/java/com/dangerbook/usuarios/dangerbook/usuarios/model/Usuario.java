@@ -31,9 +31,6 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false, length = 250)
     private String contrsaena;
 
-    @Column(name = "rol", nullable = false, length = 50)
-    private String rol;
-
     @Column(name = "fechaRegistro")
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
