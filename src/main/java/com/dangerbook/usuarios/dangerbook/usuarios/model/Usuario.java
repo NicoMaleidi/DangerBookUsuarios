@@ -44,8 +44,8 @@ public class Usuario {
 
     //IDs de otras entidades
     @Column(name = "id_rol")
-    private Integer id_Rol;
+    private Integer id_rol;
 
     @Column(name = "id_estado")
-    private Integer id_Estado;
+    private Integer id_estado;
 }
