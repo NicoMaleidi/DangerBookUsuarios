@@ -41,4 +41,11 @@ public class Usuario {
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "fotoPerfil", columnDefinition = "LONGBLOB")
     private byte[] fotoPerfil;
+
+    //IDs de otras entidades
+    @Column(name = "id_rol")
+    private Integer id_Rol;
+
+    @Column(name = "id_estado")
+    private Integer id_Estado;
 }
