@@ -6,8 +6,6 @@ import com.dangerbook.usuarios.dangerbook.usuarios.model.Usuario;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.EstadoRepository;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.RolRepository;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.UsuarioRepository;
-import com.dangerbook.usuarios.dangerbook.usuarios.service.EstadoService;
-import com.dangerbook.usuarios.dangerbook.usuarios.service.RolService;
 import com.dangerbook.usuarios.dangerbook.usuarios.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
@@ -49,7 +47,6 @@ public class DataLoader implements CommandLineRunner {
                     return estadoRepository.save(nuevo);
                 });
 
-        // Faker para generar datos realistas
         Faker faker = new Faker(new Locale("es-CL"), new Random(123));
 
         // Generar usuarios de prueba
@@ -59,13 +56,12 @@ public class DataLoader implements CommandLineRunner {
             u.setApellido(faker.name().lastName());
             u.setEmail(faker.internet().emailAddress());
             u.setTelefono(faker.phoneNumber().cellPhone());
-            u.setContrsaena("password123"); // en desarrollo no se encripta, solo test
+            u.setContrasena("password123");
             u.setFechaRegistro(LocalDateTime.now());
             u.setFotoPerfil(null);
             u.setId_rol(rolUsuario.getId_rol());
             u.setId_estado(estadoActivo.getId_estado());
 
-            // Usamos el servicio para aplicar lógica interna (si la hubiera)
             usuarioService.save(u);
         }
 

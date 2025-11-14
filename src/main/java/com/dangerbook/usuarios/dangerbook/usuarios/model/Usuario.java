@@ -29,7 +29,7 @@ public class Usuario {
     private String telefono;
 
     @Column(name = "contrasena", nullable = false, length = 250)
-    private String contrsaena;
+    private String contrasena;
 
     @Column(name = "fechaRegistro")
     private LocalDateTime fechaRegistro = LocalDateTime.now();
