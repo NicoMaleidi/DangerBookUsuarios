@@ -42,7 +42,7 @@ public class UsuarioControllerTest {
         usuario.setApellido("Vallejos");
         usuario.setEmail("nicolasito@example.com");
         usuario.setTelefono("987654321");
-        usuario.setContrsaena("12345");
+        usuario.setContrasena("12345");
         usuario.setFechaRegistro(LocalDateTime.now());
         usuario.setId_rol(1);
         usuario.setId_estado(1);
