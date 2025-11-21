@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UsuarioController {
 
     @Autowired
@@ -35,4 +37,17 @@ public class UsuarioController {
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         return ResponseEntity.status(201).body(usuarioService.save(usuario));
     }
+
+    @PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+    String email = body.get("email");
+    String contrasena = body.get("contrasena");
+
+    try {
+        Usuario u = usuarioService.findByEmailAndPassword(email, contrasena);
+        return ResponseEntity.ok(u);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(401).body("Credenciales incorrectas");
+    }
+}
 }

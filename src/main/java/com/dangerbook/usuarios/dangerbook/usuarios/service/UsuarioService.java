@@ -28,4 +28,9 @@ public class UsuarioService {
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
+
+    public Usuario findByEmailAndPassword(String email, String contrasena) {
+    return usuarioRepository.findByEmailAndContrasena(email, contrasena)
+            .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
+}
 }
