@@ -24,47 +24,73 @@ public class DataLoader implements CommandLineRunner {
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
-    private final UsuarioService usuarioService;
     private final EstadoRepository estadoRepository;
 
     @Override
-    public void run(String... args) {
-        // Evita duplicar datos si ya existen usuarios
+    public void run(String... args) throws Exception {
         if (usuarioRepository.count() > 0) return;
 
-        // Crear datos base si las tablas están vacías
-        Rol rolUsuario = rolRepository.findAll().stream().findFirst()
-                .orElseGet(() -> {
-                    Rol nuevo = new Rol();
-                    nuevo.setNombre("Cliente");
-                    return rolRepository.save(nuevo);
-                });
+        Rol adminRole = rolRepository.save(new Rol(null, "Admin"));
+        Rol barberRole = rolRepository.save(new Rol(null, "Barbero"));
+        Rol clientRole = rolRepository.save(new Rol(null, "Cliente"));
 
-        Estado estadoActivo = estadoRepository.findAll().stream().findFirst()
-                .orElseGet(() -> {
-                    Estado nuevo = new Estado();
-                    nuevo.setNombre("Activo");
-                    return estadoRepository.save(nuevo);
-                });
+        // Estado
+        Estado activo = estadoRepository.save(new Estado(null, "Activo"));
 
-        Faker faker = new Faker(new Locale("es-CL"), new Random(123));
+        // ADMIN
+        usuarioRepository.save(Usuario.builder()
+                .nombre("Administrador")
+                .apellido("General")
+                .email("admin@danger.cl")
+                .telefono("900000001")
+                .contrasena("admin123")
+                .fechaRegistro(LocalDateTime.now())
+                .id_rol(adminRole.getId_rol())
+                .id_estado(activo.getId_estado())
+                .build()
+        );
 
-        // Generar usuarios de prueba
-        for (int i = 0; i < 15; i++) {
-            Usuario u = new Usuario();
-            u.setNombre(faker.name().firstName());
-            u.setApellido(faker.name().lastName());
-            u.setEmail(faker.internet().emailAddress());
-            u.setTelefono(faker.phoneNumber().cellPhone());
-            u.setContrasena("password123");
-            u.setFechaRegistro(LocalDateTime.now());
-            u.setFotoPerfil(null);
-            u.setId_rol(rolUsuario.getId_rol());
-            u.setId_estado(estadoActivo.getId_estado());
+        // BARBEROS: Steve y Martin
+        usuarioRepository.save(Usuario.builder()
+                .nombre("Steve")
+                .apellido("Lazaro")
+                .email("steve@danger.cl")
+                .telefono("900000002")
+                .contrasena("barber123")
+                .fechaRegistro(LocalDateTime.now())
+                .id_rol(barberRole.getId_rol())
+                .id_estado(activo.getId_estado())
+                .build()
+        );
 
-            usuarioService.save(u);
+        usuarioRepository.save(Usuario.builder()
+                .nombre("Martin")
+                .apellido("Svideski")
+                .email("martin@danger.cl")
+                .telefono("900000003")
+                .contrasena("barber123")
+                .fechaRegistro(LocalDateTime.now())
+                .id_rol(barberRole.getId_rol())
+                .id_estado(activo.getId_estado())
+                .build()
+        );
+
+        // CLIENTES (faker)
+        Faker faker = new Faker(new Locale("es-CL"));
+        for (int i = 0; i < 10; i++) {
+            usuarioRepository.save(Usuario.builder()
+                    .nombre(faker.name().firstName())
+                    .apellido(faker.name().lastName())
+                    .email(faker.internet().emailAddress())
+                    .telefono(faker.phoneNumber().cellPhone())
+                    .contrasena("password123")
+                    .fechaRegistro(LocalDateTime.now())
+                    .id_rol(clientRole.getId_rol())
+                    .id_estado(activo.getId_estado())
+                    .build()
+            );
         }
 
-        System.out.println(" Usuarios de prueba generados correctamente (" + usuarioRepository.count() + " registros).");
+        System.out.println(" Usuarios creados: " + usuarioRepository.count());
     }
 }
