@@ -32,5 +32,12 @@ public class UsuarioService {
     public Usuario findByEmailAndPassword(String email, String contrasena) {
     return usuarioRepository.findByEmailAndContrasena(email, contrasena)
             .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
+    }
+
+    public Usuario login(String email, String contrasena) {
+    return findByEmailAndPassword(email, contrasena);
+    }
+
+            
 }
-}
+
