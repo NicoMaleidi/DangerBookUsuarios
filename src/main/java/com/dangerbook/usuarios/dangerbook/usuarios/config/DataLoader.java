@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class DataLoader implements CommandLineRunner {
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
     private final EstadoRepository estadoRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
                 .apellido("General")
                 .email("admin@danger.cl")
                 .telefono("900000001")
-                .contrasena("admin123")
+                .contrasena(passwordEncoder.encode("admin123"))
                 .fechaRegistro(LocalDateTime.now())
                 .id_rol(adminRole.getId_rol())
                 .id_estado(activo.getId_estado())
@@ -54,7 +56,7 @@ public class DataLoader implements CommandLineRunner {
                 .apellido("Lazaro")
                 .email("steve@danger.cl")
                 .telefono("900000002")
-                .contrasena("barber123")
+                .contrasena(passwordEncoder.encode("barber123"))
                 .fechaRegistro(LocalDateTime.now())
                 .id_rol(barberRole.getId_rol())
                 .id_estado(activo.getId_estado())
@@ -66,7 +68,7 @@ public class DataLoader implements CommandLineRunner {
                 .apellido("Svideski")
                 .email("martin@danger.cl")
                 .telefono("900000003")
-                .contrasena("barber123")
+                .contrasena(passwordEncoder.encode("barber123"))
                 .fechaRegistro(LocalDateTime.now())
                 .id_rol(barberRole.getId_rol())
                 .id_estado(activo.getId_estado())
@@ -74,14 +76,14 @@ public class DataLoader implements CommandLineRunner {
         );
 
         // CLIENTES (faker)
-        Faker faker = new Faker(new Locale("es-CL"));
+        Faker faker = new Faker(new Locale("es", "CL"));
         for (int i = 0; i < 10; i++) {
             usuarioRepository.save(Usuario.builder()
                     .nombre(faker.name().firstName())
                     .apellido(faker.name().lastName())
                     .email(faker.internet().emailAddress())
                     .telefono(faker.phoneNumber().cellPhone())
-                    .contrasena("password123")
+                    .contrasena(passwordEncoder.encode("password123"))
                     .fechaRegistro(LocalDateTime.now())
                     .id_rol(clientRole.getId_rol())
                     .id_estado(activo.getId_estado())
