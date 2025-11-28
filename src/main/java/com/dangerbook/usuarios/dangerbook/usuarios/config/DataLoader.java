@@ -6,7 +6,6 @@ import com.dangerbook.usuarios.dangerbook.usuarios.model.Usuario;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.EstadoRepository;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.RolRepository;
 import com.dangerbook.usuarios.dangerbook.usuarios.repository.UsuarioRepository;
-import com.dangerbook.usuarios.dangerbook.usuarios.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Random;
 
 @Component
 @Profile("dev")

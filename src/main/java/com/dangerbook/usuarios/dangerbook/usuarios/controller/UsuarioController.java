@@ -20,6 +20,7 @@ public class UsuarioController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Obtener todos los usuarios
     @GetMapping
     public ResponseEntity<List<Usuario>> getAll() {
         List<Usuario> lista = usuarioService.findAll();
@@ -27,6 +28,7 @@ public class UsuarioController {
         return ResponseEntity.ok(lista);
     }
 
+    // Obtener usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getById(@PathVariable Integer id) {
         try {
@@ -36,15 +38,18 @@ public class UsuarioController {
         }
     }
 
+    // Registrar usuario
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         return ResponseEntity.status(201).body(usuarioService.save(usuario));
     }
 
+    // Login
     @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-    String email = body.get("email");
-    String contrasena = body.get("contrasena");
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        String contrasena = body.get("contrasena");
+
 
     try {
         Usuario u = usuarioService.findByEmail(email);
@@ -54,6 +59,6 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         return ResponseEntity.ok(u);
     } catch (RuntimeException e) {
         return ResponseEntity.status(401).body("Credenciales incorrectas");
+    }   
     }
-}
 }
