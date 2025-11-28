@@ -5,6 +5,7 @@ import com.dangerbook.usuarios.dangerbook.usuarios.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> getAll() {
@@ -44,7 +47,10 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
     String contrasena = body.get("contrasena");
 
     try {
-        Usuario u = usuarioService.findByEmailAndPassword(email, contrasena);
+        Usuario u = usuarioService.findByEmail(email);
+        if (u == null || !passwordEncoder.matches(contrasena, u.getContrasena())) {
+            throw new RuntimeException("Credenciales incorrectas");
+        }
         return ResponseEntity.ok(u);
     } catch (RuntimeException e) {
         return ResponseEntity.status(401).body("Credenciales incorrectas");
