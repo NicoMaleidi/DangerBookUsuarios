@@ -33,10 +33,9 @@ public class Usuario {
 
     @Column(name = "fechaRegistro")
     private LocalDateTime fechaRegistro = LocalDateTime.now();
-
+    
     @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "fotoPerfil", columnDefinition = "LONGBLOB")
+    @Column(name = "foto_perfil", columnDefinition = "LONGBLOB")
     private byte[] fotoPerfil;
 
     //IDs de otras entidades

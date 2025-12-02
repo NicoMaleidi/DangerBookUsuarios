@@ -50,5 +50,14 @@ public class UsuarioService {
     return findByEmailAndPassword(email, contrasena);
     }
 
+    @Transactional
+    public void updatePhoto(Long id, byte[] photoBytes) {
+    Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+    usuario.setFotoPerfil(photoBytes);
+    usuarioRepository.save(usuario);
+    }
+
             
 }

@@ -5,6 +5,7 @@ import com.dangerbook.usuarios.dangerbook.usuarios.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -60,5 +61,18 @@ public class UsuarioController {
     } catch (RuntimeException e) {
         return ResponseEntity.status(401).body("Credenciales incorrectas");
     }   
+    }
+
+    @PostMapping("/update-photo/{id}")
+    public ResponseEntity<String> updatePhoto(
+        @PathVariable Long id,
+        @RequestParam("photo") MultipartFile photoFile) {
+
+        try {
+            usuarioService.updatePhoto(id, photoFile.getBytes());
+            return ResponseEntity.ok("Foto actualizada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al actualizar foto");
+        }
     }
 }
