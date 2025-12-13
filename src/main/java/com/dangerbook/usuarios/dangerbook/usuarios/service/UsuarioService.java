@@ -52,7 +52,7 @@ public class UsuarioService {
 
     @Transactional
     public void updatePhoto(Long id, byte[] photoBytes) {
-    Usuario usuario = usuarioRepository.findById(id)
+    Usuario usuario = usuarioRepository.findById(id.intValue())
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
     usuario.setFotoPerfil(photoBytes);
