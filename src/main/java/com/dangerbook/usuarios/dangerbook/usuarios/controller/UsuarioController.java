@@ -1,5 +1,6 @@
 package com.dangerbook.usuarios.dangerbook.usuarios.controller;
 
+import com.dangerbook.usuarios.dangerbook.usuarios.config.CambiarContrasena;
 import com.dangerbook.usuarios.dangerbook.usuarios.model.Usuario;
 import com.dangerbook.usuarios.dangerbook.usuarios.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,23 @@ public class UsuarioController {
             return ResponseEntity.ok("Foto actualizada correctamente");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al actualizar foto");
+        }
+    }
+
+    @PostMapping("/update-password")
+    public ResponseEntity<?> updatePassword(
+        @RequestBody CambiarContrasena request) {
+
+        try {
+            usuarioService.updatePassword(
+                    request.getUserId(),
+                    request.getOldPassword(),
+                    request.getNewPassword()
+        );
+        return ResponseEntity.ok().build();
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

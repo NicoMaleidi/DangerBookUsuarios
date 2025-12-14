@@ -59,5 +59,22 @@ public class UsuarioService {
     usuarioRepository.save(usuario);
     }
 
+    @Transactional
+    public void updatePassword(Long userId, String oldPassword, String newPassword) {
+
+        Usuario usuario = usuarioRepository.findById(userId.intValue())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // 1. Validar contraseña actual
+        if (!passwordEncoder.matches(oldPassword, usuario.getContrasena())) {
+            throw new RuntimeException("La contraseña actual es incorrecta");
+        }
+
+        // 2. Encriptar nueva contraseña
+        usuario.setContrasena(passwordEncoder.encode(newPassword));
+
+        // 3. Guardar
+        usuarioRepository.save(usuario);
+    }
             
 }
